@@ -4,15 +4,15 @@ export async function getAPI(url) {
     let result = await axios.get(url);
     return result;
   } catch (e) {
-    console.log(e, "error");
+    console.log(e, "get error");
   }
 }
 export async function postAPI(url, formData) {
   try {
     let result = await axios.post(url, formData);
-    return result;
+    return result.data;
   } catch (e) {
-    console.log(e, "error");
+    console.log(e, "post error");
   }
 }
 export async function patchAPI(url, id) {
@@ -20,7 +20,7 @@ export async function patchAPI(url, id) {
     let result = await axios.patch(`${url}/${id}`);
     return result;
   } catch (e) {
-    console.log(e, "error");
+    console.log(e, "patch error");
   }
 }
 export async function deleteAPI(url, id) {
@@ -28,6 +28,6 @@ export async function deleteAPI(url, id) {
     let result = await axios.delete(`${url}/${id}`);
     return result;
   } catch (e) {
-    console.log(e, "error");
+    console.log(e, "delete error");
   }
 }

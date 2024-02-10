@@ -8,6 +8,7 @@ export default function GetAllTask(props) {
 
   function handleDelete(id) {
     dispatch(deleteTask(id));
+    deleteAPI("http://localhost:5000/api/task", id);
   }
   function handleUpdate(id, status) {
     const data = {
@@ -15,6 +16,7 @@ export default function GetAllTask(props) {
       status,
     };
     dispatch(updateTask(data));
+    patchAPI("http://localhost:5000/api/task", id);
   }
   return (
     <div className="list">
@@ -32,7 +34,6 @@ export default function GetAllTask(props) {
         </span>
       </h2>
       <h4>{description}</h4>
-
       <button onClick={() => handleDelete(props.id)}>Delete Task</button>
       <hr />
     </div>

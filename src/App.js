@@ -6,9 +6,12 @@ import GetAllTask from "./components/GetAllTask";
 import { useDispatch, useSelector } from "react-redux";
 import { addTask } from "./store/slices/taskSlice";
 import { postAPI, getAPI } from "./apiCalls";
+import { useEffect, useState } from "react";
 function App() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.addSlice.value);
+  const [tasks, setTasks] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -16,13 +19,22 @@ function App() {
     reset,
     formState: { errors },
   } = useForm();
+  useEffect(() => {
+    handleGetTask();
+  }, []);
+  async function handleGetTask() {
+    const result = await getAPI("http://localhost:5000/api/task");
+    if (result) {
+      setTasks(result);
+    }
+  }
   function createTask(data) {
     dispatch(addTask(data));
-    // postAPI("/", data);
+    postAPI("http://localhost:5000/api/task", data);
     reset();
     alert(`${data.title}! Task Created`);
   }
-
+  console.log(state, "state");
   return (
     <div className="add_task">
       <form onSubmit={handleSubmit(createTask)} className="form">
@@ -69,7 +81,11 @@ function App() {
       </form>
       <div className="form">
         <p className="task_p">Task List</p>
-        {state && state.length > 0 ? (
+        {tasks ? (
+          tasks.map((items, id) => {
+            return <GetAllTask key={id} items={items} id={id} />;
+          })
+        ) : state && state.length > 0 ? (
           state.map((items, id) => {
             return <GetAllTask key={id} items={items} id={id} />;
           })
