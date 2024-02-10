@@ -1,8 +1,21 @@
 import React from "react";
 import { patchAPI, deleteAPI } from "../apiCalls";
+import { deleteTask, updateTask } from "../store/slices/taskSlice";
+import { useDispatch } from "react-redux";
 export default function GetAllTask(props) {
+  const dispatch = useDispatch();
   const { title, description, status } = props.items;
 
+  function handleDelete(id) {
+    dispatch(deleteTask(id));
+  }
+  function handleUpdate(id, status) {
+    const data = {
+      id,
+      status,
+    };
+    dispatch(updateTask(data));
+  }
   return (
     <div className="list">
       <h2>
@@ -12,13 +25,15 @@ export default function GetAllTask(props) {
             type="checkbox"
             checked={status === "true" ? true : false}
             style={{ cursor: "pointer" }}
-            onChange={() => patchAPI("/", props.id)}
+            onChange={() =>
+              handleUpdate(props.id, status == "true" ? "false" : "true")
+            }
           />
         </span>
       </h2>
       <h4>{description}</h4>
 
-      <button onClick={() => deleteAPI("/", props.id)}>Delete Task</button>
+      <button onClick={() => handleDelete(props.id)}>Delete Task</button>
       <hr />
     </div>
   );

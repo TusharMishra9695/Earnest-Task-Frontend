@@ -68,7 +68,7 @@ html {
 .form {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 10px;
   width: 100%;
   max-width: 500px;
   background-color: #fff;
@@ -103,7 +103,12 @@ button:hover {
 h4 {
   color: rgb(166, 164, 164);
   font-weight: 400;
+  text-align: justify;
 }
 hr {
   border: 1px solid lightgrey;
+}
+h2,
+h4 {
+  overflow: hidden;
 }

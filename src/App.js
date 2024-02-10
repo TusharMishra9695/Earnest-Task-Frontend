@@ -4,7 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import { status } from "./utils";
 import GetAllTask from "./components/GetAllTask";
 import { useDispatch, useSelector } from "react-redux";
-import { addTask } from "./store/slices/addTask";
+import { addTask } from "./store/slices/taskSlice";
 import { postAPI, getAPI } from "./apiCalls";
 function App() {
   const dispatch = useDispatch();
@@ -13,12 +13,14 @@ function App() {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm();
   function createTask(data) {
     dispatch(addTask(data));
     // postAPI("/", data);
-    alert("task created");
+    reset();
+    alert(`${data.title}! Task Created`);
   }
 
   return (
