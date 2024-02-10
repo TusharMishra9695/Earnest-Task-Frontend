@@ -3,21 +3,28 @@ import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
 import { status } from "./utils";
 import GetAllTask from "./components/GetAllTask";
+import { useDispatch, useSelector } from "react-redux";
+import { addTask } from "./store/slices/addTask";
+import { postAPI, getAPI } from "./apiCalls";
 function App() {
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.addSlice.value);
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
-  function onSubmit(data) {
-    console.log(data, "dayta");
+  function createTask(data) {
+    dispatch(addTask(data));
+    // postAPI("/", data);
+    alert("task created");
   }
+
   return (
     <div className="add_task">
-      <form onSubmit={handleSubmit(onSubmit)} className="form">
+      <form onSubmit={handleSubmit(createTask)} className="form">
         <p className="task_p"> Task Manager ! Add Task</p>
-
         <div className="details">
           <p>Title</p>
           <input
@@ -60,7 +67,13 @@ function App() {
       </form>
       <div className="form">
         <p className="task_p">Task List</p>
-        <GetAllTask />
+        {state && state.length > 0 ? (
+          state.map((items, id) => {
+            return <GetAllTask key={id} items={items} id={id} />;
+          })
+        ) : (
+          <h2>No Task In The List !!!!</h2>
+        )}
       </div>
     </div>
   );
