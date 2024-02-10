@@ -20,7 +20,7 @@ function App() {
     formState: { errors },
   } = useForm();
   useEffect(() => {
-    handleGetTask();
+    // handleGetTask();
   }, []);
   async function handleGetTask() {
     const result = await getAPI("http://localhost:5000/api/task");
